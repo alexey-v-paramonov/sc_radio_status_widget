@@ -37,7 +37,7 @@ Vue.component('radio-status-widget', {
             this.refreshTrackdata();
         }, 5*1000);
     },
-    template: '<div><div v-if="loaded"><img v-bind:src="trackImage" /><div>{{trackMetadata}}</div></div></div>'
+    template: '#statusComponent'
 });
 
 new Vue({

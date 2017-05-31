@@ -8,6 +8,13 @@
       <div id="app">
           <div is="radio-status-widget"
                api-base="http://hammerstream.s02.radio-tochka.com:8080/api/v2">
+               <template id="statusComponent">
+                   <div>
+                       <div v-if="loaded">
+                           <img v-bind:src="trackImage" /><div>{{trackMetadata}}</div>
+                        </div>
+                    </div>
+               </template>
           </div>
       </div>
       <!-- built files will be auto injected -->
