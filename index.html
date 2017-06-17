@@ -3,25 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    <title>sc_radio_status_widget2</title>
+    <title>Widget</title>
 </head>
 
 <body>
-    <template id="statusComponent">
-        <div>
-            <div v-if="loaded">
-                <img v-bind:src="trackImage" />
-                <div>{{trackMetadata}}</div>
-                <div v-if="showProgress">{{playbackTime}}/{{totalTrackTime}}</div>
-            </div>
-        </div>
-    </template>
-
-    <div id="app">
-        <div is="radio-status-widget" api-base="http://hammerstream.s02.radio-tochka.com:8080/api/v2">
-        </div>
+    <div style="width: 300px;">
+    <div class="sc-status-widget" >
+        <widget 
+        lang="ru"
+        api-base="http://hammerstream.s02.radio-tochka.com:8080/api/v2" />
     </div>
-    <!-- built files will be auto injected -->
+    </div>
 </body>
 
 </html>
