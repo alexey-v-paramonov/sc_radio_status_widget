@@ -1,9 +1,8 @@
 import Vue from 'vue';
-import Widget from './widget'
+import StreamStatusWidget from './widget'
 
 Vue.config.productionTip = false;
-
 new Vue({
     el: '.sc-status-widget',
-    components: { Widget },
+    components: { StreamStatusWidget },
 });
