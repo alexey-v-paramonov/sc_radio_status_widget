@@ -1,12 +1,12 @@
 <template>
-    <div class="widget text-centered" v-bind:style="styleObject">
+    <div class="track_st_widget text-centered" v-bind:style="styleObject">
         <div v-if="loaded">
-            <img class="track-cover" v-bind:src="trackImage" v-bind:style="coverStyle"/>
-            <div class="track-meta" v-bind:style="metaStyle">{{trackMetadata}}</div>
-            <div class="vote-row" id="vote-row" v-if="canVote">
-                <div class="vote-td">
-                    <div class="vote-button" v-on:click="voteUp" v-bind:style="voteBtnStyle">
-                        <span class="likes" v-if="trackLikes || trackDislikes" v-bind:style="voteResultPos">{{translations[lang].likes}}: {{trackLikes}}</span>
+            <img v-bind:src="trackImage" v-bind:style="coverStyle"/>
+            <div class="track_st_track-meta" v-bind:style="metaStyle">{{trackMetadata}}</div>
+            <div class="track_st_vote-row" id="track_st_vote-row" v-if="showVote && canVote">
+                <div class="track_st_vote-td">
+                    <div class="track_st_vote-button" v-on:click="voteUp" v-bind:style="voteBtnStyle">
+                        <span v-if="trackLikes || trackDislikes" v-bind:style="voteResultPos">{{translations[lang].likes}}: {{trackLikes}}</span>
                         <svg v-else version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 478.2 478.2" style="enable-background:new 0 0 478.2 478.2;" xml:space="preserve">
                             <g>
                                 <path d="M457.575,325.1c9.8-12.5,14.5-25.9,13.9-39.7c-0.6-15.2-7.4-27.1-13-34.4c6.5-16.2,9-41.7-12.7-61.5
@@ -58,9 +58,9 @@
                         </svg>
                     </div>
                 </div>
-                <div class="vote-td">
-                    <div class="vote-button" v-on:click="voteDown" v-bind:style="voteBtnStyle">
-                        <span class="dislikes" v-if="trackLikes || trackDislikes" v-bind:style="voteResultNeg">{{translations[lang].dislikes}}: {{trackDislikes}}</span>
+                <div class="track_st_vote-td">
+                    <div class="track_st_vote-button" v-on:click="voteDown" v-bind:style="voteBtnStyle">
+                        <span v-if="trackLikes || trackDislikes" v-bind:style="voteResultNeg">{{translations[lang].dislikes}}: {{trackDislikes}}</span>
                         <svg v-else version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 478.174 478.174" style="enable-background:new 0 0 478.174 478.174;" xml:space="preserve">
                             <g>
                                 <path d="M457.525,153.074c1.9-5.1,3.7-12,4.2-20c0.7-14.1-2.8-33.9-22.7-51.9c1.3-9.2,1.3-23.8-6.8-38.3
@@ -113,9 +113,9 @@
                     </div>
                 </div>
             </div>
-            <div class="progress-wrap progress" id="trackProgressWrap" v-if="showProgress" v-bind:style="pbStyle">
-                <div class="progress-bar progress" v-bind:style="pbbStyle"></div>
-                <div class="progress-text" v-bind:style="pbtStyle">{{playbackTime}}/{{totalTrackTime}}</div>
+            <div class="track_st_progress-wrap track_st_progress" id="trackProgressWrap" v-if="showProgress" v-bind:style="pbStyle">
+                <div class="track_st_progress-bar track_st_progress" v-bind:style="pbbStyle"></div>
+                <div class="track_st_progress-text" v-bind:style="pbtStyle">{{playbackTime}}/{{totalTrackTime}}</div>
             </div>
 
         </div>
@@ -126,13 +126,13 @@
 import axios from 'axios';
 export default {
     props: [
-        'apiBase', 'lang', 
-        'bgcolor', 'bgimage', 'bgopacity', 
+        'apiBase', 'lang',
+        'bgcolor', 'bgimage', 'bgopacity',
         'meta_font_size','meta_font_style','meta_font_color','meta_opacity',
         'progress_bar_color', 'progress_bar_bg_color', 'progress_bar_height', 'progress_opacity', 'progress_font_color', 'progress_font_opacity',
         'track_image_default', 'track_image_size',
-        'vote_buttons_color',
-        'vote_results_font_color_neg', 'vote_results_font_color_pos', 'vote_results_font_size'
+        'vote_buttons_color', 'vote_show',
+        'vote_results_font_color_neg', 'vote_results_font_color_pos', 'vote_results_font_size',
         ],
     data: () => {
         return {
@@ -174,18 +174,20 @@ export default {
             trackDislikes: 0,
             voteRowHeight: 50,
             styleObject: {
-
             }
         };
     },
-    mounted: () => {
-
+    mounted() {
+        window.sc_vueTrackWidget = this;
     },
     beforeDestroy: () => {
-        clearInterval(this.timerHandle);
+        this.stop();
     },
     methods: {
-
+        stop: function() {
+            clearInterval(this.timerHandle);
+            clearInterval(this.refreshTrackHandle);
+        },
         hexToRgb: function(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? {
@@ -195,7 +197,7 @@ export default {
             } : null;
         },
         vote: function(up) {
-            this.voteRowHeight = document.getElementById('vote-row').clientHeight;
+            this.voteRowHeight = document.getElementById('track_st_vote-row').clientHeight;
 
             if (this.lastTrack && this.lastTrack.all_music_id) {
                 let url = `${this.apiBase}/music/${this.lastTrack.all_music_id}/`;
@@ -267,7 +269,7 @@ export default {
             }
         },
         refreshTrackdata() {
-            axios.get(`${this.apiBase}/history?limit=1&offset=0&server=1`)
+            axios.get(`${this.apiBase}/history/?limit=1&offset=0&server=1`)
                 .then(response => {
                     if (response.data && response.data.results && response.data.results.length) {
                         this.lastTrack = response.data.results[0];
@@ -286,23 +288,23 @@ export default {
                     this.loaded = false;
                     this.canVote = false;
                 });
-            // 
+            //
         }
     },
-    created() {
+    created: function() {
         // Create styles
         let rgbBg = this.hexToRgb(this.bgcolor);
         this.styleObject = {
             'background-color': `rgba(${rgbBg.r}, ${rgbBg.g}, ${rgbBg.b}, ${this.bgopacity})`
         };
         if (this.bgimage) {
-            this.styleObject['background'] = `url('${this.bgimage}') no-repeat center center fixed`;
+            this.styleObject['background'] = `url('${this.bgimage}') no-repeat center center`;
             this.styleObject['-webkit-background-size'] = "cover";
             this.styleObject['-moz-background-size'] = "cover";
             this.styleObject['-o-background-size'] = "cover";
             this.styleObject['background-size'] = "cover";
         }
-        
+
         // Metadata styling
         let rgbMeta = this.hexToRgb(this.meta_font_color);
         this.metaStyle = {
@@ -359,9 +361,10 @@ export default {
             'font-size': `${this.vote_results_font_size}px`,
             'line-height': this.voteRowHeight + 'px',
         }
-        
+        this.showVote = this.vote_show === 'true';
+
         this.refreshTrackdata();
-        setInterval(() => {
+        this.refreshTrackHandle = setInterval(() => {
             this.refreshTrackdata();
         }, 15 * 1000);
 
@@ -369,41 +372,41 @@ export default {
         this.timerHandle = setInterval(() => {
             this.updateProgress();
         }, 1000);
-
     },
 
 }
 </script>
 
 <style scoped>
-.widget {
+.track_st_widget {
     font-size: 14px;
     border: 1px solid #000;
     padding: 10px;
 }
 
-.vote-row {
+.track_st_vote-row {
     display: table;
     width: 100%;
 }
 
-.vote-td {
+.track_st_vote-td {
     width: 50%;
     text-align: center;
     display: table-cell
 }
 
-.vote-button svg {
+.track_st_vote-button svg {
     width: 25%;
-    padding: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.progress {
+.track_st_progress {
     width: 100%;
     /* custom */
 }
 
-.progress-bar {
+.track_st_progress-bar {
     background: #ddd;
     /* custom */
     left: 0px;
@@ -416,7 +419,7 @@ export default {
     transition: left 0.5s;
 }
 
-.progress-text {
+.track_st_progress-text {
     z-index: 101;
     position: absolute;
     left: 50%;
@@ -424,8 +427,7 @@ export default {
     transform: translateX(-50%) translateY(-50%);
 }
 
-.progress-wrap {
-    /* custom */
+.track_st_progress-wrap {
     margin: 0px 0;
     overflow: hidden;
     position: relative;
@@ -436,18 +438,8 @@ export default {
     text-align: center;
 }
 
-.track-cover {
-}
-
-.track-meta {
+.track_st_track-meta {
     padding: 10px;
 }
 
-.likes {
-    
-}
-
-.dislikes {
-    
-}
 </style>
