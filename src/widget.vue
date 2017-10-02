@@ -126,7 +126,7 @@
 import axios from 'axios';
 export default {
     props: [
-        'apiBase', 'lang',
+        'apiBase', 'serverId', 'lang',
         'bgcolor', 'bgimage', 'bgopacity',
         'meta_font_size','meta_font_style','meta_font_color','meta_opacity',
         'progress_bar_color', 'progress_bar_bg_color', 'progress_bar_height', 'progress_opacity', 'progress_font_color', 'progress_font_opacity',
@@ -269,7 +269,7 @@ export default {
             }
         },
         refreshTrackdata() {
-            axios.get(`${this.apiBase}/history/?limit=1&offset=0&server=1`)
+            axios.get(`${this.apiBase}/history/?limit=1&offset=0&server=${(this.serverId || 1)}`)
                 .then(response => {
                     if (response.data && response.data.results && response.data.results.length) {
                         this.lastTrack = response.data.results[0];
