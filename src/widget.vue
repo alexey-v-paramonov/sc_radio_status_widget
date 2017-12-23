@@ -146,6 +146,11 @@ export default {
                     already_voted: "Вы уже голосовали за этот трэк",
                     likes: "За",
                     dislikes: "Против",
+                },
+                fr:{
+                    already_voted: "Vous avez déjà voté pour ce titre",
+                    likes: "J'Aime",
+                    dislikes: "J'Aime pas",
                 }
             },
             loaded: true,
