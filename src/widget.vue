@@ -274,25 +274,39 @@ export default {
             }
         },
         refreshTrackdata() {
-            axios.get(`${this.apiBase}/history/?limit=1&offset=0&server=${(this.serverId || 1)}`)
-                .then(response => {
-                    if (response.data && response.data.results && response.data.results.length) {
-                        this.lastTrack = response.data.results[0];
-                        this.loaded = true;
-                        this.trackImage = (this.lastTrack.img_medium_url || this.lastTrack.img_url || this.trackImageFailover);
-
-                        // Track changed
-                        if (this.trackMetadata != this.lastTrack.metadata) {
-                            this.trackMetadata = this.lastTrack.metadata;
-                            this.trackLikes = this.trackDislikes = 0;
+            axios.get(`${this.apiBase}/djs/?server=${(this.serverId || 1)}`).then(
+                djResponse => {
+                    let djImage = void 0;
+                    if(djResponse.data){
+                        for(let dj of djResponse.data){
+                            if(dj.cat == "real" && dj.on_air){
+                                djImage = dj.image_medium;
+                            }
                         }
-                        this.canVote = this.lastTrack.all_music_id;
                     }
-                })
-                .catch(e => {
-                    this.loaded = false;
-                    this.canVote = false;
-                });
+                    axios.get(`${this.apiBase}/history/?limit=1&offset=0&server=${(this.serverId || 1)}`)
+                    .then(response => {
+                        console.log("History response: ", response);
+                        if (response.data && response.data.results && response.data.results.length) {
+                            this.lastTrack = response.data.results[0];
+                            this.loaded = true;
+                            this.trackImage = djImage || this.lastTrack.img_medium_url || this.lastTrack.img_url || this.trackImageFailover;
+
+                            // Track changed
+                            if (this.trackMetadata != this.lastTrack.metadata) {
+                                this.trackMetadata = this.lastTrack.metadata;
+                                this.trackLikes = this.trackDislikes = 0;
+                            }
+                            this.canVote = this.lastTrack.all_music_id;
+                        }
+                    })
+                    .catch(e => {
+                        this.loaded = false;
+                        this.canVote = false;
+                    });
+                }
+            );
+
             //
         }
     },
