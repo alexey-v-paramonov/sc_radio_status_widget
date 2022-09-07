@@ -231,6 +231,9 @@ export default {
             if (this.lastTrack && this.lastTrack.ts && this.lastTrack.length) {
                 this.showProgress = true;
                 let timeFromStart = (+ new Date()) - this.lastTrack.ts;
+                if(timeFromStart < 0){
+                    timeFromStart = 0;
+                }
                 if (timeFromStart > this.lastTrack.length) {
                     timeFromStart = this.lastTrack.length;
                 }
@@ -259,6 +262,7 @@ export default {
 
         },
         formatTime(sec) {
+            sec = Math.abs(sec);
             let pad = function(n) {
                 return (n < 10 ? "0" + n : n);
             };
