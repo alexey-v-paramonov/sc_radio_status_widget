@@ -151,7 +151,17 @@ export default {
                     already_voted: "Vous avez déjà voté pour ce titre",
                     likes: "J'Aime",
                     dislikes: "J'Aime pas",
-                }
+                },
+                br: { 
+                    already_voted: "Você já votou nesta faixa",
+                    likes: "Gostei",
+                    dislikes: "Não Gostei"
+                },
+                pt: {
+                    already_voted: "Você já votou nesta faixa",
+                    likes: "Gostei",
+                    dislikes: "Não Gostei"
+                },
             },
             loaded: true,
             trackImage: '',
