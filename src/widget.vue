@@ -127,7 +127,7 @@ import axios from 'axios';
 export default {
     props: [
         'apiBase', 'serverId', 'lang',
-        'bgcolor', 'bgimage', 'bgopacity',
+        'bgcolor', 'bgimage', 'bgopacity', 'border',
         'meta_font_size','meta_font_style','meta_font_color','meta_opacity',
         'progress_bar_color', 'progress_bar_bg_color', 'progress_bar_height', 'progress_opacity', 'progress_font_color', 'progress_font_opacity',
         'track_image_default', 'track_image_size',
@@ -314,7 +314,8 @@ export default {
         // Create styles
         let rgbBg = this.hexToRgb(this.bgcolor);
         this.styleObject = {
-            'background-color': `rgba(${rgbBg.r}, ${rgbBg.g}, ${rgbBg.b}, ${this.bgopacity})`
+            'background-color': `rgba(${rgbBg.r}, ${rgbBg.g}, ${rgbBg.b}, ${this.bgopacity})`,
+            border: this.border || ''
         };
         if (this.bgimage) {
             this.styleObject['background'] = `url('${this.bgimage}') no-repeat center center`;
@@ -323,7 +324,6 @@ export default {
             this.styleObject['-o-background-size'] = "cover";
             this.styleObject['background-size'] = "cover";
         }
-
         // Metadata styling
         let rgbMeta = this.hexToRgb(this.meta_font_color);
         this.metaStyle = {
@@ -399,7 +399,6 @@ export default {
 <style scoped>
 .track_st_widget {
     font-size: 14px;
-    border: 1px solid #000;
     padding: 10px;
 }
 
