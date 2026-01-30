@@ -147,7 +147,7 @@ export default {
                     likes: "За",
                     dislikes: "Против",
                 },
-                fr:{
+                fr: {
                     already_voted: "Vous avez déjà voté pour ce titre",
                     likes: "J'Aime",
                     dislikes: "J'Aime pas",
@@ -161,6 +161,91 @@ export default {
                     already_voted: "Você já votou nesta faixa",
                     likes: "Gostei",
                     dislikes: "Não Gostei"
+                },
+                tr: {
+                    already_voted: "Bu parça için zaten oy kullandınız",
+                    likes: "Beğeni",
+                    dislikes: "Beğenmeme"
+                },
+                pl: {
+                    already_voted: "Już głosowałeś na ten utwór",
+                    likes: "Lubię to",
+                    dislikes: "Nie lubię"
+                },
+                be: {
+                    already_voted: "Вы ўжо прагаласавалі за гэты трэк",
+                    likes: "Падабаецца",
+                    dislikes: "Не падабаецца"
+                },
+                it: {
+                    already_voted: "Hai già votato per questo brano",
+                    likes: "Mi piace",
+                    dislikes: "Non mi piace"
+                },
+                sp: {
+                    already_voted: "Ya has votado por esta pista",
+                    likes: "Me gusta",
+                    dislikes: "No me gusta"
+                },
+                de: {
+                    already_voted: "Sie haben bereits für diesen Titel abgestimmt",
+                    likes: "Gefällt mir",
+                    dislikes: "Gefällt mir nicht"
+                },
+                nl: {
+                    already_voted: "Je hebt al gestemd voor dit nummer",
+                    likes: "Vind ik leuk",
+                    dislikes: "Vind ik niet leuk"
+                },
+                cs: {
+                    already_voted: "Pro tuto skladbu jste již hlasovali",
+                    likes: "Líbí se mi",
+                    dislikes: "Nelíbí se mi"
+                },
+                az: {
+                    already_voted: "Siz artıq bu trek üçün səs vermişsiniz",
+                    likes: "Bəyənmə",
+                    dislikes: "Bəyənməmə"
+                },
+                ua: {
+                    already_voted: "Ви вже проголосували за цей трек",
+                    likes: "Подобається",
+                    dislikes: "Не подобається"
+                },
+                lt: {
+                    already_voted: "Jūs jau balsavote už šį kūrinį",
+                    likes: "Patinka",
+                    dislikes: "Nepatinka"
+                },
+                lv: {
+                    already_voted: "Jūs jau esat nobalsojis par šo dziesmu",
+                    likes: "Patīk",
+                    dislikes: "Nepatīk"
+                },
+                et: {
+                    already_voted: "Olete juba selle loo eest hääletanud",
+                    likes: "Meeldib",
+                    dislikes: "Ei meeldi"
+                },
+                ta: {
+                    already_voted: "இந்த பாடலுக்கு நீங்கள் ஏற்கனவே வாக்களித்துள்ளீர்கள்",
+                    likes: "விருப்பம்",
+                    dislikes: "பிடிக்கவில்லை"
+                },
+                my: {
+                    already_voted: "Anda sudah mengundi trek ini",
+                    likes: "Suka",
+                    dislikes: "Tidak suka"
+                },
+                cn: {
+                    already_voted: "您已经为此曲目投票",
+                    likes: "喜欢",
+                    dislikes: "不喜欢"
+                },
+                id: {
+                    already_voted: "Anda sudah memberikan suara untuk lagu ini",
+                    likes: "Suka",
+                    dislikes: "Tidak suka"
                 },
             },
             loaded: true,
